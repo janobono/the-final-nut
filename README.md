@@ -72,8 +72,6 @@ docker image ls
 
 ```
 REPOSITORY                           TAG                 IMAGE ID            CREATED              SIZE
-janobono/spring-boot-nut-chocolate   latest              2df1fab068fd        12 seconds ago       185MB
-janobono/quarkus-nut-chocolate       latest              3fbbdffc3176        About a minute ago   179MB
 ```
 
 
@@ -85,9 +83,6 @@ docker stats
 
 ```
 CONTAINER ID        NAME                                            CPU %               MEM USAGE / LIMIT     MEM %               NET I/O             BLOCK I/O           PIDS
-22d681e84bd3        the-two-nuts-with-chocolate_quarkus-nut_1       1.92%               308.6MiB / 7.677GiB   3.93%               12.6kB / 8.42kB     0B / 0B             29
-dfa6ec0b8eb4        the-two-nuts-with-chocolate_spring-boot-nut_1   1.95%               452.3MiB / 7.677GiB   5.75%               52.4kB / 45.7kB     0B / 0B             36
-
 ```
 
 
