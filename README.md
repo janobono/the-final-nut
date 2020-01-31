@@ -88,5 +88,3 @@ CONTAINER ID        NAME                                            CPU %       
 
 ## results
 
-1. quarkus
-1. springboot
