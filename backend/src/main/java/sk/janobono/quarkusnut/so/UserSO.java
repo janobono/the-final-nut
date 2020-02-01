@@ -9,8 +9,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -34,13 +32,4 @@ public class UserSO {
 
     @NotNull
     private Boolean locked;
-
-    private Set<String> roles;
-
-    public Set<String> getRoles() {
-        if (roles == null) {
-            roles = new HashSet<>();
-        }
-        return roles;
-    }
 }

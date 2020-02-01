@@ -1,7 +1,7 @@
 # the-final-nut
 Quarkus, GraalVM, Svelte, Docker simple application.
 
-After [the-two-nuts-with-chocolate](https://github.com/janobono/the-two-nuts-with-chocolate) I decide to create simple 
+After [the-two-nuts-with-chocolate](https://github.com/janobono/the-two-nuts-with-chocolate) I decided to create simple 
 [Quarkus](https://quarkus.io/) native application example. Backend is same like in **the-two-nuts-with-chocolate**, 
 frontend is svelte sapper application.
 
@@ -17,7 +17,7 @@ Messaging platform - [Kafka](https://kafka.apache.org/)
 
 ## build
 
-- GraalVM 
+- GraalVM CE 19.3.1 
   - `gu install native-image`
   - `sudo apt-get install libz-dev`
 - maven
@@ -57,8 +57,8 @@ docker-compose up
 
 ### endpoints
 
-- [backend](http://127.0.0.1:8081/user/)
-- [frontend](http://127.0.0.1:8080)
+- [backend](http://127.0.0.1:8080/user/)
+- [frontend](http://127.0.0.1)
 
 
 ## measuring
@@ -71,7 +71,9 @@ docker image ls
 ```
 
 ```
-REPOSITORY                           TAG                 IMAGE ID            CREATED              SIZE
+REPOSITORY                    TAG                 IMAGE ID            CREATED              SIZE
+janobono/final-nut-frontend   latest              c3723e6b45d0        31 seconds ago       93.2MB
+janobono/final-nut-backend    latest              3200130d38f9        About a minute ago   218MB
 ```
 
 
@@ -82,9 +84,18 @@ docker stats
 ```
 
 ```
-CONTAINER ID        NAME                                            CPU %               MEM USAGE / LIMIT     MEM %               NET I/O             BLOCK I/O           PIDS
+CONTAINER ID        NAME                        CPU %               MEM USAGE / LIMIT     MEM %               NET I/O             BLOCK I/O           PIDS
+5048787efe8c        the-final-nut_backend_1     0.38%               33.48MiB / 7.677GiB   0.43%               15.4kB / 13.2kB     0B / 0B             16
 ```
 
 
 ## results
 
+In my opinion there is no real argument for GraalVM native build now.
+ 
+- build time **11:38 min** vs **57 s**
+- image size grow up from 179MB to 218MB as a base `debian:10-slim` was used
+- memory usage **308.6MiB** vs **33.48MiB**
+
+I didn't write any native test so this should be next effort. Memory consumption is really impressive but if haven't
+resource problems the price for this result should be really big.

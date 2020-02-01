@@ -12,9 +12,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.testcontainers.containers.Container;
 import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.shaded.org.apache.commons.lang.StringUtils;
-import sk.janobono.quarkusnut.so.Page;
-import sk.janobono.quarkusnut.so.Pageable;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -71,34 +68,8 @@ public abstract class BaseIntegrationTest {
         flyway.migrate();
     }
 
-    protected String paginatedUri(String uri, Integer page, Integer pageSize, String sortCol, Pageable.SortDirection direction) {
-        StringBuilder builder = new StringBuilder();
-        builder.append(uri);
-        builder.append("?page=").append(page);
-        builder.append("&size=").append(pageSize);
-        if (!StringUtils.isEmpty(sortCol)) {
-            builder.append("&sort=").append(sortCol).append(",").append(direction.name());
-        }
-        return builder.toString();
-    }
-
-    protected <T> Page<T> mapPagedResponse(String json, Class<T> paramClazz) throws IOException {
-        System.out.println(json);
-        JsonNode parent = objectMapper.readTree(json);
-        Page<T> result = new Page<>();
-        result.setContent(getListFromNode(parent.get("content"), paramClazz));
-        result.setPageable(new Pageable());
-        result.getPageable().setPageSize(parent.get("pageable").get("pageSize").asInt());
-        result.getPageable().setPageNumber(parent.get("pageable").get("pageNumber").asInt());
-        result.getPageable().setSortField(parent.get("pageable").get("sortField").asText());
-        String sortDirection = parent.get("pageable").get("sortDirection").asText();
-        if (sortDirection != null) {
-            result.getPageable().setSortDirection(Pageable.SortDirection.valueOf(sortDirection));
-        }
-        return result;
-    }
-
-    private <T> List<T> getListFromNode(JsonNode node, Class<T> clazz) throws IOException {
+    protected <T> List<T> mapListFromJson(String json, Class<T> clazz) throws IOException {
+        JsonNode node = objectMapper.readTree(json);
         List<T> content = new ArrayList<>();
         for (JsonNode val : node) {
             content.add(objectMapper.readValue(val.traverse(), clazz));

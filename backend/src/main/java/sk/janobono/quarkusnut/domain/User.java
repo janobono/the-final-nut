@@ -5,26 +5,19 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import java.util.HashSet;
-import java.util.Set;
 
 @Getter
 @Setter
 @EqualsAndHashCode(of = {"id"})
-@ToString(exclude = {"password", "roles"})
+@ToString(exclude = {"password"})
 @Entity
 @Table(name = "nut_user")
 @SequenceGenerator(name = "user_generator", allocationSize = 1, sequenceName = "nut_user_seq")
@@ -46,19 +39,6 @@ public class User {
 
     @Column(name = "locked", nullable = false)
     private Boolean locked;
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinTable(name = "nut_user_role",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
-
-    public Set<Role> getRoles() {
-        if (roles == null) {
-            roles = new HashSet<>();
-        }
-        return roles;
-    }
 
     @PrePersist
     @PreUpdate

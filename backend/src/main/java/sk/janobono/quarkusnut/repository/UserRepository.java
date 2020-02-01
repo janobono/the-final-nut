@@ -1,7 +1,6 @@
 package sk.janobono.quarkusnut.repository;
 
 import sk.janobono.quarkusnut.domain.User;
-import sk.janobono.quarkusnut.so.Pageable;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -22,6 +21,12 @@ public class UserRepository {
                 .getSingleResult()) == 1;
     }
 
+    public boolean existsByUsername(String username) {
+        return ((Long) em.createQuery("SELECT count(u.id) FROM User u WHERE u.username LIKE :username")
+                .setParameter("username", username)
+                .getSingleResult()) == 1;
+    }
+
     public boolean existsByEmail(String email) {
         return ((Long) em.createQuery("SELECT count(u.id) FROM User u WHERE u.email LIKE :email")
                 .setParameter("email", email)
@@ -35,27 +40,17 @@ public class UserRepository {
                 .getSingleResult();
     }
 
-    public List<User> findAll(Pageable pageable) {
-        String qlString = "SELECT u FROM User u";
-        if (!pageable.isUnsorted()) {
-            qlString += " ORDER BY u." + pageable.getSortField();
-            if (pageable.getSortDirection() != Pageable.SortDirection.ASC) {
-                qlString += " " + pageable.getSortDirection().name();
-            }
-        }
-
+    public List<User> findAll() {
+        String qlString = "SELECT u FROM User u ORDER BY u.id";
         Query query = em.createQuery(qlString);
-        if (!pageable.isUnpaged()) {
-            query.setFirstResult(pageable.getPageNumber() * pageable.getPageSize())
-                    .setMaxResults(pageable.getPageSize());
-        }
         return query.getResultList();
     }
 
     @Transactional
-    public void save(User user) {
+    public User save(User user) {
         em.persist(user);
         em.flush();
+        return user;
     }
 
     @Transactional

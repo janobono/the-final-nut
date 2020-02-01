@@ -11,11 +11,10 @@ import sk.janobono.quarkusnut.BaseIntegrationTest;
 import sk.janobono.quarkusnut.domain.User;
 import sk.janobono.quarkusnut.mapper.UserMapper;
 import sk.janobono.quarkusnut.repository.UserRepository;
-import sk.janobono.quarkusnut.so.Page;
-import sk.janobono.quarkusnut.so.Pageable;
 import sk.janobono.quarkusnut.so.UserSO;
 
 import javax.inject.Inject;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -33,10 +32,10 @@ public class UserControllerTest extends BaseIntegrationTest {
             createRandomUser();
         }
         RequestSpecification httpRequest = RestAssured.given();
-        Response response = httpRequest.get(paginatedUri("/user/", 0, 5, "username", Pageable.SortDirection.ASC));
+        Response response = httpRequest.get("/user/");
         assertThat(response.getStatusCode()).isEqualTo(javax.ws.rs.core.Response.Status.OK.getStatusCode());
-        Page<UserSO> result = mapPagedResponse(response.body().asString(), UserSO.class);
-        assertThat(result.getContent().size()).isEqualTo(5);
+        List<UserSO> result = mapListFromJson(response.body().asString(), UserSO.class);
+        assertThat(result.size()).isEqualTo(10);
     }
 
     @Test
@@ -48,7 +47,7 @@ public class UserControllerTest extends BaseIntegrationTest {
         Response response = httpRequest.get(uri);
         assertThat(response.getStatusCode()).isEqualTo(javax.ws.rs.core.Response.Status.OK.getStatusCode());
         UserSO userSO = mapFromJson(response.body().asString(), UserSO.class);
-        assertThat(user).isEqualToIgnoringGivenFields(userSO, "roles");
+        assertThat(user).isEqualToComparingFieldByField(userSO);
     }
 
     @Test
@@ -60,6 +59,7 @@ public class UserControllerTest extends BaseIntegrationTest {
         UserSO saved = mapFromJson(response.body().asString(), UserSO.class);
         assertThat(userSO).isEqualToIgnoringGivenFields(saved, "id", "username");
         assertThat(userSO.getUsername().toLowerCase()).isEqualTo(saved.getUsername());
+        assertThat(saved.getId()).isNotNull();
     }
 
     @Test
@@ -86,7 +86,7 @@ public class UserControllerTest extends BaseIntegrationTest {
     }
 
     private User createRandomUser() {
-        UserSO userSO = enhancedRandom.nextObject(UserSO.class, "id", "roles");
+        UserSO userSO = enhancedRandom.nextObject(UserSO.class, "id");
         User user = userMapper.userSOToUser(userSO);
         userRepository.save(user);
         return user;

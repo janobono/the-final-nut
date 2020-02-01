@@ -1,4 +1,7 @@
 quarkus:
+  http:
+    cors: true
+    methods: GET,PUT,POST,DELETE
   log:
     level: ALL
   datasource:
