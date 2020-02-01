@@ -16,7 +16,6 @@
                     return {userList: data.reverse()};
                 })
                 .catch(err => {
-                    isLoading = false;
                     console.log(err);
                     this.error(500, 'Could not fetch users!');
                 });
@@ -42,7 +41,6 @@
     let unsubscribe;
     let editMode = null;
     let editedId = null;
-    let isLoading;
 
     const dispatch = createEventDispatcher();
 
@@ -112,20 +110,16 @@
 {#if editMode === 'edit'}
     <EditUser id={editedId} on:save={savedUser} on:cancel={cancelEdit}/>
 {/if}
-{#if isLoading}
-    <LoadingSpinner/>
-{:else}
-    <section id="user-controls">
-        <Button on:click={startAdd}>New User</Button>
-    </section>
-    {#if loadedUsers.length === 0}
-        <p id="no-users">No users found, you can start adding some.</p>
-    {/if}
-    <section id="users">
-        {#each loadedUsers as user, index (user.id)}
-            <div transition:scale animate:flip={{duration: 300}}>
-                <UserItem {...user} on:edit={startEdit}/>
-            </div>
-        {/each}
-    </section>
+<section id="user-controls">
+    <Button on:click={startAdd}>New User</Button>
+</section>
+{#if loadedUsers.length === 0}
+    <p id="no-users">No users found, you can start adding some.</p>
 {/if}
+<section id="users">
+    {#each loadedUsers as user, index (user.id)}
+        <div transition:scale animate:flip={{duration: 300}}>
+            <UserItem {...user} on:edit={startEdit}/>
+        </div>
+    {/each}
+</section>

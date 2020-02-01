@@ -2,7 +2,7 @@
     export function preload(page) {
         const userId = page.params.id;
 
-        return this.fetch('http://backend:8080/user/' + userId, {
+        return this.fetch('http://localhost:8080/user/' + userId, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

@@ -19,7 +19,7 @@
     let locked = false;
 
     if (id) {
-        fetch('http://backend:8080/user/' + id, {
+        fetch('http://localhost:8080/user/' + id, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -61,7 +61,7 @@
         };
 
         if (id) {
-            fetch('http://backend:8080/user/' + id, {
+            fetch('http://localhost:8080/user/' + id, {
                 method: 'PUT',
                 body: JSON.stringify(userData),
                 headers: {
@@ -81,7 +81,7 @@
                         console.log(err);
                     });
         } else {
-            fetch('http://backend:8080/user/', {
+            fetch('http://localhost:8080/user/', {
                 method: 'POST',
                 body: JSON.stringify(userData),
                 headers: {
@@ -95,7 +95,7 @@
                         return res.json();
                     })
                     .then(data => {
-                        userStore.addUser(userData);
+                        userStore.addUser(data);
                     })
                     .catch(err => {
                         console.log(err);
@@ -105,7 +105,7 @@
     }
 
     function deleteUser() {
-        fetch('http://backend:8080/user/' + id, {
+        fetch('http://localhost:8080/user/' + id, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'

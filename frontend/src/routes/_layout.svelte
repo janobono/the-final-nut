@@ -1,7 +1,5 @@
 <script>
     import Header from '../components/ui/Header.svelte';
-
-    export let segment;
 </script>
 
 <style>
