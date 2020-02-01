@@ -104,5 +104,5 @@ In my opinion there is no real argument for GraalVM native build now.
 - image size grow up from 179MB to 218MB as a base `debian:10-slim` was used
 - memory usage **308.6MiB** vs **33.48MiB**
 
-I didn't write any native test so this should be next effort. Memory consumption is really impressive but if haven't
+I didn't write any native test so this should be next effort. Memory consumption is really impressive but if you haven't
 resource problems the price for this result should be really big.
