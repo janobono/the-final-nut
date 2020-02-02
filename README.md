@@ -54,7 +54,7 @@ docker-compose down
 docker-compose up 
 ```
 
-I didn't configure any proxy and all URLs are absolute. Fist page call is preloaded on the server side but next calls are from browser so you have to add 
+I didn't configure any proxy. You have to add
 ```
 127.0.0.1    backend
 ``` 
