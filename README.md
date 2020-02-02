@@ -54,8 +54,7 @@ docker-compose down
 docker-compose up 
 ```
 
-Sapper doesn't have any proxy config so for test purposes all URLs written in code and because there is 
-difference between call from browser and call from backend node server you have to add 
+I didn't configure any proxy and all URLs are absolute. Fist page call is preloaded on the server side but next calls are from browser so you have to add 
 ```
 127.0.0.1    backend
 ``` 
