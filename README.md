@@ -10,7 +10,7 @@ frontend is svelte sapper application.
 
 Database implementation - [Postgres](https://www.postgresql.org/)
 
-Database migration - [Flyway](https://flywaydb.org/)
+Database versioning - [Flyway](https://flywaydb.org/)
 
 Messaging platform - [Kafka](https://kafka.apache.org/)
 
